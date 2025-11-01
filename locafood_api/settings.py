@@ -60,7 +60,7 @@ ROOT_URLCONF = 'locafood_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'static')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,3 +131,51 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+# locafood_api/settings.py
+
+# ... (todo o resto do seu ficheiro)
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+# COLE ESTE BLOCO NOVO E LIMPO AQUI
+REST_FRAMEWORK = {
+    # Autenticação: 1º Tenta JWT (para a API), 2º Tenta Sessão (para o Admin/Browsable API)
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication', 
+    ],
+    
+    # Permissão Padrão: Exigir que o utilizador esteja logado
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    
+    # Renderizadores: Permite ver JSON ou a API "bonita" no navegador
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
+    
+    # Parsers: Permite que a API entenda JSON, formulários HTML, etc.
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'
+    ],
+    
+    # Limitação de Requisições (Throttle) - Bom para segurança
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    },
+    
+    # Nota: Removemos a linha 'DEFAULT_FILTER_BACKENDS' porque não instalámos o 'django-filter'
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LocaFood</title>
+    <link rel="stylesheet" href="/static/css/style.css"> 
+</head>
+<body>
+    <div class="container">
+        <h1>LocaFood</h1>
+        <form id="loginForm">
+            <div>
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit">Entrar</button>
+            <p id="message" style="color: red;"></p>
+        </form>
+        <p>Não tem uma conta? <a href="http://127.0.0.1:8000/register/">Cadastre-se aqui</a></p>
+    </div>
+
+    <script src="/static/js/auth.js"></script>
+</body>
+</html>
